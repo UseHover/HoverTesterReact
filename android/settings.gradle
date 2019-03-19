@@ -1,0 +1,4 @@
+rootProject.name = 'HoverTesterReact'
+
+include ':app', ':react-native-hover-react'
+project(':react-native-hover-react').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-hover-react/android')
