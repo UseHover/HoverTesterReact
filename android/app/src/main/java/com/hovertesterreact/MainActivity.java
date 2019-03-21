@@ -7,6 +7,8 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hover.react.sdk.RNHoverReactSdkPackage;
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -18,8 +20,7 @@ public class MainActivity extends ReactActivity {
         return "HoverTesterReact";
     }
 
-//    @Override
-//    protected List<ReactPackage> getPackages() {
-//      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNHoverReactPackage());
-//    }
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNHoverReactSdkPackage());
+    }
 }

@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "react": "16.8.3",
-    "react-native": "0.59.1"
+    "react-native": "0.59.1",
+    "react-native-hover-react-sdk": "file:../react-native-hover-react-sdk"
   },
   "devDependencies": {
     "@babel/core": "7.4.0",
     "@babel/runtime": "7.4.0",
     "babel-jest": "24.5.0",
     "jest": "24.5.0",
+    "metro": "^0.53.1",
+    "metro-core": "^0.53.1",
     "metro-react-native-babel-preset": "0.53.1",
     "react-test-renderer": "16.8.3"
   },
