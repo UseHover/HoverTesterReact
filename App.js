@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import RNHoverReactSdk from './hover';
 
 const instructions = Platform.select({
 	android:
@@ -20,11 +21,9 @@ export default class App extends Component<Props> {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Text style={styles.welcome}>Welcome to React Native!</Text>
-				<Text style={styles.instructions}>To get started, edit App.js</Text>
-				<Text style={styles.instructions}>{instructions}</Text>
+				<Text style={styles.welcome}>Hello World</Text>
 				<Button
-					onPress={onPressLearnMore}
+					onPress={RNHoverReactSdk.getPermission}
 					title="Get Permission"
 					color="#841584"
 					accessibilityLabel="Get Permission"
