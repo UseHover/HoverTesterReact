@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, Text, View, Button} from 'react-native';
 import RNHoverReactSdk from './hover';
 
 const instructions = Platform.select({
@@ -18,12 +18,16 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+	async getPerm() {
+		RNHoverReactSdk.getPermission();
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.welcome}>Hello World</Text>
 				<Button
-					onPress={RNHoverReactSdk.getPermission}
+					onPress={this.getPerm}
 					title="Get Permission"
 					color="#841584"
 					accessibilityLabel="Get Permission"
