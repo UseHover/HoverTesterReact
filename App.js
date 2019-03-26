@@ -7,12 +7,22 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, TouchableOpacity, Text, View, Button} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, Text, View, Button } from 'react-native';
+import EventEmitter from 'EventEmitter';
 import RNHoverReactSdk from './hover';
 
 type Props = {};
 export default class App extends Component<Props> {
-	state = { permsGranted: false }
+	state = { permsGranted: false, gotSMSResponse: false }
+
+	componentWillMount() {
+		RNHoverReactSdk.showToast("registering listener");
+		var emitter = new EventEmitter();
+		emitter.addListener('transaction_update', function(e: Event) {
+			RNHoverReactSdk.showToast("got an event");
+			this.setState({ gotSMSResponse: true });
+		});
+	}
 
 	async getPerm() {
 		try {
@@ -29,6 +39,15 @@ export default class App extends Component<Props> {
 		return hasPs;
 	}
 
+	async makeRequest() {
+		try {
+			var response = await RNHoverReactSdk.makeRequest("4255ec9a");
+			RNHoverReactSdk.showToast(response);
+		} catch (e) {
+			RNHoverReactSdk.showToast(e.message);
+		}
+	}
+
 	render() {
 		this.checkPermState();
 		return (
@@ -41,6 +60,13 @@ export default class App extends Component<Props> {
 					accessibilityLabel="Get Permission"
 				/>
 				{this.state.permsGranted ? <Text style={styles.granted}>Permissions Granted</Text> : <Text style={styles.granted}>Permissions not granted</Text>}
+				<Button
+					onPress={this.makeRequest.bind(this)}
+					title="Check Balance"
+					color="#EB7D23"
+					accessibilityLabel="Check Balance Button"
+				/>
+				{this.state.gotSMSResponse ? <Text style={styles.granted}>Received SMS</Text> : null}
 			</View>
 		);
 	}
