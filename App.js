@@ -7,9 +7,10 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, TouchableOpacity, Text, View, Button } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, Text, View, Button, NativeModules, NativeEventEmitter } from 'react-native';
 import EventEmitter from 'EventEmitter';
-import RNHoverReactSdk from './hover';
+
+const RNHoverReactSdk = NativeModules.RNHoverReactSdk;
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -17,12 +18,16 @@ export default class App extends Component<Props> {
 
 	componentWillMount() {
 		RNHoverReactSdk.showToast("registering listener");
-		var emitter = new EventEmitter();
-		emitter.addListener('transaction_update', function(e: Event) {
-			RNHoverReactSdk.showToast("got an event");
-			this.setState({ gotSMSResponse: true });
-		});
+		const transactionEmitter = new NativeEventEmitter(RNHoverReactSdk)
+		const subscription = transactionEmitter.addListener(
+			"transaction_update", () => this.setState({ gotSMSResponse: true }));
 	}
+
+// , function(e: Event) {
+// RNHoverReactSdk.showToast("got an event");
+// this.setState({ gotSMSResponse: true });
+// });
+
 
 	async getPerm() {
 		try {
