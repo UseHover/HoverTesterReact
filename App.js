@@ -16,12 +16,19 @@ type Props = {};
 export default class App extends Component<Props> {
 	state = { permsGranted: false, gotSMSResponse: false }
 
+	async onTUpdate(data) {
+		RNHoverReactSdk.showToast("received t update for uuid: " + data.uuid);
+		this.setState({ gotSMSResponse: true })
+	}
+
 	componentWillMount() {
 		RNHoverReactSdk.showToast("registering listener");
 		const transactionEmitter = new NativeEventEmitter(RNHoverReactSdk)
 		const subscription = transactionEmitter.addListener(
-			"transaction_update", () => this.setState({ gotSMSResponse: true }));
+			"transaction_update", (data) => this.onTUpdate(data));
 	}
+
+
 
 // , function(e: Event) {
 // RNHoverReactSdk.showToast("got an event");
