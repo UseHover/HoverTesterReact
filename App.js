@@ -14,27 +14,18 @@ const RNHoverReactSdk = NativeModules.RNHoverReactSdk;
 
 type Props = {};
 export default class App extends Component<Props> {
-	state = { permsGranted: false, gotSMSResponse: false }
+	state = { permsGranted: false, gotSMSResponse: false, resultText: "" }
 
 	async onTUpdate(data) {
-		RNHoverReactSdk.showToast("received t update for uuid: " + data.uuid);
+		// RNHoverReactSdk.showToast("received t update for uuid: " + data.uuid);
 		this.setState({ gotSMSResponse: true })
 	}
 
 	componentWillMount() {
-		RNHoverReactSdk.showToast("registering listener");
 		const transactionEmitter = new NativeEventEmitter(RNHoverReactSdk)
 		const subscription = transactionEmitter.addListener(
 			"transaction_update", (data) => this.onTUpdate(data));
 	}
-
-
-
-// , function(e: Event) {
-// RNHoverReactSdk.showToast("got an event");
-// this.setState({ gotSMSResponse: true });
-// });
-
 
 	async getPerm() {
 		try {
@@ -53,8 +44,10 @@ export default class App extends Component<Props> {
 
 	async makeRequest() {
 		try {
-			var response = await RNHoverReactSdk.makeRequest("4255ec9a");
-			RNHoverReactSdk.showToast(response);
+			extras = {"amount": "100", "other": "thing", "recipient": "43214324"};
+			var response = await RNHoverReactSdk.makeRequest("4255ec9a", extras);
+			RNHoverReactSdk.showToast("received session result: " + response.uuid);
+			this.setState({ resultText: response.response_message });
 		} catch (e) {
 			RNHoverReactSdk.showToast(e.message);
 		}
@@ -78,6 +71,7 @@ export default class App extends Component<Props> {
 					color="#EB7D23"
 					accessibilityLabel="Check Balance Button"
 				/>
+				<Text style={styles.granted}>{this.state.resultText}</Text>
 				{this.state.gotSMSResponse ? <Text style={styles.granted}>Received SMS</Text> : null}
 			</View>
 		);
