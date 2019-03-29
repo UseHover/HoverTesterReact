@@ -1,42 +1,11 @@
-To run:
+This is a sample app for testing the [Hover React Native Bridge](https://github.com/UseHover/hover-react-sdk). See the README in that project for including the Hover React SDK in your React Native app.
 
-adb reverse tcp:8081 tcp:8081
+To get started use this guide https://facebook.github.io/react-native/docs/getting-started.html. Once everything is set up you can test on a real device by running the following:
+
+```
 react-native start
+adb reverse tcp:8081 tcp:8081
 react-native run-android
+```
 
-
-To include hover-react-sdk:
-
-from hover-react-sdk dir 
-	`npm install  --save-dev`
-
-from react app dir
-	`npm install react-native-hover-react-sdk --save`
-
-	1.	add `"react-native-hover-react-sdk": "file:../react-native-hover-react-sdk"` to `package.json`
-	2. Open up `android/app/src/main/java/[...]/MainActivity.java`
-	  - Add `import com.hover.react.sdk.RNHoverReactSdkPackage;` to the imports at the top of the file
-	  - Add `new RNHoverReactSdkPackage()` to the list returned by the `getPackages()` method
-	3. Append the following lines to `android/settings.gradle`:
-	  	```
-	  	include ':react-native-hover-react-sdk'
-	  	project(':react-native-hover-react-sdk').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-hover-react-sdk/android')
-	  	```
-	4. Change the following lines in the project.ext.react array in `android/app/build.gradle`:
-	  	```
-	  	project.ext.react = [
-			entryFile: "index.js"
-			entryFile: "index.js",
-			bundleAssetName: "index.android.bundle",
-			bundleInAlpha: true,
-			bundleInBeta: true
-		]
-	  	``` as well as inside the dependencies:
-	  	```
-	      implementation project(':react-native-hover-react-sdk')
-	  	```
-
-	`react-native link react-native-hover-react-sdk`
-
-run on device:
-	`react-native run-android`
+The reverse command should only be neccessary if you are attempting to run on a real device from within android studio.
